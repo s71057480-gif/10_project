@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>주소등록이</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="note-closed">
+    <div id="noteCover" class="note-cover" role="button" tabindex="0" aria-label="노트 열기">
+      <div class="cover-paper">
+        <div class="cover-title">주소등록이</div>
+        <div class="cover-subtitle">오늘의 주소 기록을 적어보세요</div>
+        <div class="cover-hint">클릭해서 열기</div>
+        <button id="tutorialBtn" class="tutorial-button" type="button" aria-label="설명서 보기">
+          설명서
+        </button>
+      </div>
+    </div>
+
+    <div id="tutorialPanel" class="tutorial-panel" aria-hidden="true">
+      <div class="tutorial-box">
+        <div class="tutorial-header">
+          <h2>설명서</h2>
+          <button id="closeTutorialBtn" class="close-tutorial" type="button" aria-label="설명서 닫기">✕</button>
+        </div>
+        <ol class="tutorial-steps">
+          <li>노트 표지를 누르면 기록 입력 화면이 열립니다.</li>
+          <li>이름, 전화번호, 도로명 주소, 집 주소를 적습니다.</li>
+          <li>메모를 남기고 저장 버튼을 누릅니다.</li>
+          <li>기록 목록에서 수정 또는 삭제를 할 수 있습니다.</li>
+          <li>상단에 표시된 오늘 날짜는 자동으로 갱신됩니다.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div id="easterEggOverlay" class="easter-egg-overlay" aria-hidden="true">
+      <div class="korean-flag" aria-label="대한민국 국기">
+        <img
+          class="flag-image"
+          src="https://i.namu.wiki/i/7eO_Mxb4YJ0pixrfzR9id71q2Menal16k0t2ijto7SZLtUVzA02CjVNVofMhm3f3fjdSUf_LoXb29UNtULjKhysq13COGlMGdcHz60dLFk6ZI8X7OTsCgAIIRgpIlKqCJ8zfTZ-wGpbFs9QpAW6fZw.svg"
+          alt="대한민국 국기"
+        />
+      </div>
+    </div>
+
+    <div id="appShell" class="app-shell" aria-hidden="true">
+      <header class="topbar">
+        <div class="date-block">
+          <label>오늘 날짜</label>
+          <div id="selectedDateText" class="date-display" aria-live="polite">2026년 10월 17일</div>
+          <input id="recordDate" type="hidden" />
+        </div>
+      </header>
+
+      <main class="notebook">
+        <section class="form-panel">
+          <div class="field-row">
+            <label>이름</label>
+            <input id="name" type="text" placeholder="홍길동" />
+          </div>
+
+          <div class="field-row">
+            <label>전화번호</label>
+            <input id="phone" type="tel" placeholder="010-1234-5678" />
+          </div>
+
+          <div class="field-row">
+            <label>도로명 주소</label>
+            <input id="roadAddress" type="text" placeholder="서울시 강남구 테헤란로 123" />
+          </div>
+
+          <div class="field-row">
+            <label>집 주소</label>
+            <input id="homeAddress" type="text" placeholder="서울시 강남구 역삼동 456-7" />
+          </div>
+        </section>
+
+        <aside class="memo-panel">
+          <label>메모장</label>
+          <textarea id="memo" rows="10" placeholder="메모를 입력하세요."></textarea>
+        </aside>
+      </main>
+
+      <div class="actions">
+        <button id="saveBtn" class="primary">저장</button>
+        <button id="clearBtn" class="secondary">초기화</button>
+      </div>
+
+      <section class="list-panel">
+        <div class="list-header">
+          <h2>기록 목록</h2>
+          <button id="clearAllBtn" class="danger-btn" type="button">전체삭제</button>
+        </div>
+        <div class="list-toolbar">
+          <input
+            id="searchInput"
+            class="search-input"
+            type="search"
+            placeholder="이름, 전화번호, 주소 검색"
+            aria-label="기록 검색"
+          />
+          <select id="sortSelect" class="sort-select" aria-label="정렬 기준">
+            <option value="name">가나다순</option>
+            <option value="latest">최신순</option>
+          </select>
+        </div>
+        <div id="recordList" class="record-list"></div>
+      </section>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
