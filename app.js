@@ -22,9 +22,10 @@ const sortSelect = document.getElementById('sortSelect');
 const tutorialBtn = document.getElementById('tutorialBtn');
 const tutorialPanel = document.getElementById('tutorialPanel');
 const closeTutorialBtn = document.getElementById('closeTutorialBtn');
+const themeToggleBtn = document.getElementById('themeToggleBtn');
 
 let editingIndex = null;
-let currentSortOrder = 'name';
+let currentSortOrder = 'latest';
 
 const today = new Date();
 const todayString = formatDateInput(today);
@@ -99,6 +100,7 @@ function showKoreanFlag() {
 function getFormRecord() {
   return {
     date: form.date.value || todayString,
+    createdAt: new Date().toISOString(),
     name: form.name.value.trim(),
     phone: form.phone.value.trim(),
     roadAddress: form.roadAddress.value.trim(),
@@ -151,12 +153,15 @@ function getFilteredRecords(records) {
 
   return normalized.sort((a, b) => {
     if (currentSortOrder === 'latest') {
-      const timeA = new Date(`${a.record.date || '1970-01-01'}T00:00:00`).getTime();
-      const timeB = new Date(`${b.record.date || '1970-01-01'}T00:00:00`).getTime();
+      const timeA = new Date(a.record.createdAt || `${a.record.date || '1970-01-01'}T00:00:00`).getTime();
+      const timeB = new Date(b.record.createdAt || `${b.record.date || '1970-01-01'}T00:00:00`).getTime();
 
       if (timeA !== timeB) {
         return timeB - timeA;
       }
+
+      return (b.record.createdAt ? new Date(b.record.createdAt).getTime() : 0) -
+        (a.record.createdAt ? new Date(a.record.createdAt).getTime() : 0);
     }
 
     const nameA = (a.record.name || '').trim();
@@ -168,6 +173,47 @@ function getFilteredRecords(records) {
 
     return nameA.localeCompare(nameB, 'ko');
   });
+}
+
+let regularNightModeBeforeHalloween = false;
+
+function applyTheme(isNightMode) {
+  document.body.classList.toggle('night-mode', isNightMode);
+
+  if (!isNightMode) {
+    document.body.classList.remove('halloween-mode');
+    localStorage.removeItem('halloween-mode');
+  }
+
+  if (themeToggleBtn) {
+    const hasHalloweenMode = document.body.classList.contains('halloween-mode');
+    const toggleLabel = hasHalloweenMode ? '할로윈모드' : isNightMode ? '주간모드' : '야간모드';
+    themeToggleBtn.textContent = toggleLabel;
+    themeToggleBtn.setAttribute('aria-label', hasHalloweenMode ? '할로윈모드 켜기' : isNightMode ? '주간모드 켜기' : '야간모드 켜기');
+  }
+
+  localStorage.setItem('night-mode', String(isNightMode));
+}
+
+function applyHalloweenTheme(enabled) {
+  document.body.classList.toggle('halloween-mode', enabled);
+
+  if (enabled) {
+    regularNightModeBeforeHalloween = document.body.classList.contains('night-mode');
+    document.body.classList.add('night-mode');
+    localStorage.setItem('night-mode', 'true');
+    localStorage.setItem('halloween-mode', 'true');
+  } else {
+    document.body.classList.toggle('night-mode', regularNightModeBeforeHalloween);
+    localStorage.setItem('night-mode', String(regularNightModeBeforeHalloween));
+    localStorage.removeItem('halloween-mode');
+  }
+
+  if (themeToggleBtn) {
+    const isNightMode = document.body.classList.contains('night-mode');
+    themeToggleBtn.textContent = enabled ? '할로윈모드' : isNightMode ? '주간모드' : '야간모드';
+    themeToggleBtn.setAttribute('aria-label', enabled ? '할로윈모드 켜기' : isNightMode ? '주간모드 켜기' : '야간모드 켜기');
+  }
 }
 
 function renderRecords() {
@@ -303,6 +349,8 @@ sortSelect.addEventListener('change', (event) => {
   renderRecords();
 });
 
+sortSelect.value = currentSortOrder;
+
 recordList.addEventListener('click', (event) => {
   const button = event.target.closest('button[data-action]');
   if (!button) return;
@@ -377,6 +425,57 @@ tutorialPanel.addEventListener('click', (event) => {
     closeTutorial();
   }
 });
+
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener('click', () => {
+    const isTouchDevice = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || navigator.maxTouchPoints > 0;
+
+    if (isTouchDevice) {
+      if (document.body.classList.contains('halloween-mode')) {
+        applyHalloweenTheme(false);
+      } else {
+        applyHalloweenTheme(true);
+      }
+      return;
+    }
+
+    if (document.body.classList.contains('halloween-mode')) {
+      applyHalloweenTheme(false);
+      return;
+    }
+
+    themeTapCount += 1;
+    clearTimeout(themeTapTimer);
+    themeTapTimer = setTimeout(() => {
+      themeTapCount = 0;
+    }, 1200);
+
+    if (themeTapCount >= 10) {
+      themeTapCount = 0;
+      applyHalloweenTheme(true);
+      return;
+    }
+
+    const isNightMode = !document.body.classList.contains('night-mode');
+    applyTheme(isNightMode);
+  });
+}
+
+let themeTapCount = 0;
+let themeTapTimer = null;
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && document.body.classList.contains('halloween-mode')) {
+    applyHalloweenTheme(false);
+  }
+});
+
+const savedTheme = localStorage.getItem('night-mode') === 'true';
+const savedHalloweenTheme = localStorage.getItem('halloween-mode') === 'true';
+applyTheme(savedTheme);
+if (savedHalloweenTheme) {
+  applyHalloweenTheme(true);
+}
 
 updateSelectedDateLabel();
 setInterval(updateSelectedDateLabel, 60000);

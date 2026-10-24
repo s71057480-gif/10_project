@@ -29,7 +29,178 @@ body {
   overflow-x: hidden;
   color: var(--ink);
   font-family: "Noto Sans KR", "Malgun Gothic", "Segoe UI", sans-serif;
-  background: linear-gradient(135deg, #d1b788 0%, #c29f6c 34%, #b8864d 100%);
+  background: linear-gradient(135deg, #9e7d55 0%, #7f6546 34%, #59462d 100%);
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+body.night-mode {
+  color: #f8f1e6;
+  background: linear-gradient(135deg, #4c4b48 0%, #5f5a53 38%, #3f3a36 100%);
+}
+
+body.night-mode .app-shell,
+body.night-mode .cover-paper,
+body.night-mode .notebook,
+body.night-mode .field-row,
+body.night-mode .date-block,
+body.night-mode .theme-toggle,
+body.night-mode .search-input,
+body.night-mode .sort-select,
+body.night-mode .field-row input,
+body.night-mode .memo-panel textarea,
+body.night-mode .date-display,
+body.night-mode .record-card {
+  color: #f8f1e6;
+  background: rgba(79, 74, 68, 0.8);
+  border-color: rgba(244, 235, 220, 0.24);
+}
+
+body.night-mode .cover-paper {
+  background: linear-gradient(180deg, #67615b 0%, #4a453f 100%);
+}
+
+body.night-mode .date-display,
+body.night-mode .search-input,
+body.night-mode .sort-select,
+body.night-mode .field-row input,
+body.night-mode .memo-panel textarea,
+body.night-mode .theme-toggle,
+body.night-mode .date-block {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+body.night-mode .field-row label,
+body.night-mode .memo-panel label,
+body.night-mode .list-header h2,
+body.night-mode .chip-label,
+body.night-mode .memo-label,
+body.night-mode .date-block label,
+body.night-mode .cover-title,
+body.night-mode .cover-subtitle,
+body.night-mode .cover-hint {
+  color: #f7f0e4;
+}
+
+body.night-mode .record-card {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+body.night-mode .danger-btn {
+  color: #ffd7d7;
+  background: rgba(120, 53, 53, 0.35);
+}
+
+body.night-mode .tutorial-box {
+  background: rgba(27, 29, 33, 0.96);
+  color: #f5efe7;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+body.night-mode .tutorial-steps,
+body.night-mode .close-tutorial,
+body.night-mode .tutorial-header h2 {
+  color: #f5efe7;
+}
+
+body.halloween-mode {
+  background: linear-gradient(135deg, #120d11 0%, #2a150d 28%, #100d0f 100%);
+}
+
+body.halloween-mode .app-shell,
+body.halloween-mode .cover-paper,
+body.halloween-mode .notebook,
+body.halloween-mode .field-row,
+body.halloween-mode .date-block,
+body.halloween-mode .theme-toggle,
+body.halloween-mode .search-input,
+body.halloween-mode .sort-select,
+body.halloween-mode .field-row input,
+body.halloween-mode .memo-panel textarea,
+body.halloween-mode .date-display,
+body.halloween-mode .record-card {
+  background: rgba(52, 24, 16, 0.82);
+  border-color: rgba(255, 163, 82, 0.38);
+  color: #ffe9cf;
+}
+
+body.halloween-mode .field-row label,
+body.halloween-mode .memo-panel label,
+body.halloween-mode .list-header h2,
+body.halloween-mode .chip-label,
+body.halloween-mode .memo-label,
+body.halloween-mode .date-block label,
+body.halloween-mode .cover-title,
+body.halloween-mode .cover-subtitle,
+body.halloween-mode .cover-hint,
+body.halloween-mode .tutorial-steps,
+body.halloween-mode .close-tutorial,
+body.halloween-mode .tutorial-header h2 {
+  color: #ffe9cf;
+}
+
+body.halloween-mode .danger-btn {
+  color: #fff0e0;
+  background: rgba(175, 66, 28, 0.4);
+}
+
+body.halloween-mode .theme-toggle {
+  border-color: rgba(255, 163, 82, 0.4);
+  box-shadow: inset 0 0 0 1px rgba(255, 188, 115, 0.24);
+}
+
+body.halloween-mode::before,
+body.halloween-mode::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.halloween-mode::before {
+  background: radial-gradient(circle at 20% 20%, rgba(255, 166, 82, 0.22), transparent 28%),
+    radial-gradient(circle at 80% 10%, rgba(255, 253, 208, 0.16), transparent 24%),
+    radial-gradient(circle at 50% 60%, rgba(255, 131, 60, 0.12), transparent 32%);
+  animation: halloweenFlash 1.2s ease-in-out infinite alternate;
+}
+
+body.halloween-mode::after {
+  background-image:
+    radial-gradient(circle at 12% 14%, rgba(255, 179, 71, 0.9) 0 14px, transparent 15px),
+    radial-gradient(circle at 75% 18%, rgba(255, 255, 255, 0.8) 0 12px, transparent 13px),
+    radial-gradient(circle at 85% 72%, rgba(255, 179, 71, 0.85) 0 12px, transparent 13px),
+    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.75) 0 10px, transparent 11px);
+  opacity: 0.7;
+  animation: ghostFloat 7s ease-in-out infinite alternate;
+}
+
+body.halloween-mode .app-shell,
+body.halloween-mode .notebook,
+body.halloween-mode .list-panel,
+body.halloween-mode .form-panel,
+body.halloween-mode .memo-panel {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes halloweenFlash {
+  0% {
+    opacity: 0.45;
+    filter: brightness(0.9);
+  }
+  100% {
+    opacity: 0.85;
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes ghostFloat {
+  0% {
+    transform: translateY(0px) scale(1);
+  }
+  100% {
+    transform: translateY(-12px) scale(1.04);
+  }
 }
 
 body::before,
@@ -205,7 +376,7 @@ body > * {
 .cover-paper {
   width: min(520px, 82vw);
   min-height: 640px;
-  background: linear-gradient(180deg, #f3e7c9 0%, #ecdbb7 100%);
+  background: linear-gradient(180deg, #e8d7ae 0%, #d6c09a 100%);
   border: 2px solid rgba(97, 74, 48, 0.5);
   border-radius: 26px;
   box-shadow: 0 24px 48px rgba(71, 50, 29, 0.23);
@@ -289,7 +460,7 @@ body > * {
   margin: 44px auto;
   padding: 28px 24px 22px;
   position: relative;
-  background: linear-gradient(180deg, rgba(248, 239, 220, 0.9), rgba(232, 214, 176, 0.94));
+  background: linear-gradient(180deg, rgba(230, 217, 189, 0.8), rgba(203, 180, 142, 0.88));
   border: 2px solid rgba(106, 80, 52, 0.45);
   border-radius: 24px;
   box-shadow: 0 24px 50px rgba(64, 45, 25, 0.16);
@@ -320,6 +491,23 @@ body > * {
   margin-bottom: 20px;
   position: relative;
   z-index: 1;
+}
+
+.topbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-toggle {
+  border: 1px solid rgba(103, 79, 46, 0.22);
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .date-block {
@@ -353,7 +541,7 @@ body > * {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 24px;
-  background: linear-gradient(180deg, rgba(245, 236, 216, 0.82), rgba(235, 220, 186, 0.8));
+  background: linear-gradient(180deg, rgba(224, 213, 188, 0.82), rgba(207, 188, 154, 0.8));
   border: 1px solid rgba(103, 79, 46, 0.22);
   border-radius: 18px;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
@@ -457,7 +645,7 @@ body > * {
   width: 100%;
   border: 1px solid rgba(103, 79, 46, 0.18);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.12);
   padding: 10px 12px;
   font-size: 16px;
   color: var(--ink);

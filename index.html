@@ -46,10 +46,15 @@
 
     <div id="appShell" class="app-shell" aria-hidden="true">
       <header class="topbar">
-        <div class="date-block">
-          <label>오늘 날짜</label>
-          <div id="selectedDateText" class="date-display" aria-live="polite">2026년 10월 17일</div>
-          <input id="recordDate" type="hidden" />
+        <div class="topbar-controls">
+          <button id="themeToggleBtn" class="theme-toggle" type="button" aria-label="야간모드 켜기">
+            야간모드
+          </button>
+          <div class="date-block">
+            <label>오늘 날짜</label>
+            <div id="selectedDateText" class="date-display" aria-live="polite">2026년 10월 17일</div>
+            <input id="recordDate" type="hidden" />
+          </div>
         </div>
       </header>
 
@@ -102,7 +107,7 @@
           />
           <select id="sortSelect" class="sort-select" aria-label="정렬 기준">
             <option value="name">가나다순</option>
-            <option value="latest">최신순</option>
+            <option value="latest" selected>최신순</option>
           </select>
         </div>
         <div id="recordList" class="record-list"></div>
